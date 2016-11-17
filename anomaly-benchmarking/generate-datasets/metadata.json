@@ -30,7 +30,7 @@
     },
     {
       "name": "replicates",
-      "type": "integer",
+      "type": "number",
       "default": 10,
       "description": "How many datasets to make at given categories/levels"
     },
