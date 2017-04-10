@@ -137,15 +137,16 @@
 ;; map: each node starts with the parent -1, and this is updated as
 ;; edges are added to the span tree.
 
+(define (find-subgraph node-id subgraphs)
+  (let (parent (get subgraphs (str node-id)))
+    (if (= parent -1)
+        node-id
+        (find-subgraph parent subgraphs))))
+
 (define (max-span-tree graph)
   (let (edges (get graph "edges")
         nodes (get graph "nodes")
-        sorted (reverse (sort-by-key "weight" edges))
-        find-subgraph (lambda (node-id subgraphs)
-                        (let (parent (get subgraphs (str node-id)))
-                          (if (= parent -1)
-                            node-id
-                            (find-subgraph parent subgraphs)))))
+        sorted (reverse (sort-by-key "weight" edges)))
     (loop (span-edges [] 
            subgraphs (make-map (map (lambda (x) (str (get x "id"))) nodes) 
                               (repeat (count nodes) -1)) 
